@@ -7,16 +7,6 @@
 , pkgs
 , ...
 }:
-let
-  batmanpager = pkgs.writeShellApplication {
-    name = "batmanpager";
-    runtimeInputs = with pkgs; [ bat coreutils-full util-linux.bin ];
-    text = ''
-      # shellcheck disable=SC2002
-      cat "$1" | col -bx | bat --language man --style plain
-    '';
-  };
-in
 {
   # You can import other home-manager modules here
   imports = [
@@ -76,7 +66,7 @@ in
     LC_ALL = "en_US.UTF-8";
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
-    MANPAGER = "${batmanpager}/bin/batmanpager";
+    MANPAGER = "nvim +Man!"
   };
 
   # Add stuff for your user as you see fit:
