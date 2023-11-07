@@ -66,7 +66,7 @@
     LC_ALL = "en_US.UTF-8";
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
-    MANPAGER = "nvim +Man!"
+    MANPAGER = "nvim +Man!";
   };
 
   # Add stuff for your user as you see fit:
