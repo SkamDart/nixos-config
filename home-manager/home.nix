@@ -66,12 +66,15 @@
 
   xdg.configFile = {
     "i3/config".text = builtins.readFile ./i3;
+    "ghci/ghci.conf".text = builtins.readFile ./ghci.conf;
   };
 
   home = {
     username = "stinky";
     homeDirectory = "/home/stinky";
   };
+
+  home.file.".gdbinit".source = ./gdbinit;
 
   home.sessionVariables = {
     LANG = "en_US.UTF-8";
@@ -93,6 +96,7 @@
       feh
       firefox
       fzf
+      gh
       htop
       jq
       man-pages
@@ -100,6 +104,7 @@
       nix-tree
       ripgrep
       tree
+      tree-sitter
       watch
       zig
     ];
