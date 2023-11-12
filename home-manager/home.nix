@@ -38,6 +38,18 @@
       #     patches = [ ./change-hello-to-hi.patch ];
       #   });
       # })
+
+      # Vim Overlay
+      #
+      # Move this to overlays/vim.nix when you're not lazy.
+      (final: prev: {
+        customVim = {
+          vim-copilot = final.vimUtils.buildVimPlugin {
+            name = "vim-copilot";
+            src = inputs.vim-copilot;
+          };
+        };
+      })
     ];
     # Configure your nixpkgs instance
     config = {
@@ -60,6 +72,7 @@
     username = "stinky";
     homeDirectory = "/home/stinky";
   };
+
   home.sessionVariables = {
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
@@ -88,6 +101,7 @@
       ripgrep
       tree
       watch
+      zig
     ];
 
   #---------------------------------------------------------------------
@@ -181,7 +195,7 @@
             filetypes = [ "dhall" ];
           };
           haskell = {
-            command = "haskell-language-server";
+            command = "haskell-language-server-wrapper";
             args = [ "--lsp" ];
             rootPatterns = [
               "*.cabal"
@@ -232,6 +246,7 @@
     withPython3 = true;
     extraPython3Packages = (p: with p; [ ]);
     plugins = with pkgs; [
+      customVim.vim-copilot
       vimPlugins.nvim-comment
       vimPlugins.nvim-lspconfig
       vimPlugins.plenary-nvim # required for telescope
@@ -261,10 +276,21 @@
       vimPlugins.nvim-dap
       vimPlugins.coc-nvim
       vimPlugins.coc-sh
+
       # treesitter
+      vimPlugins.nvim-treesitter
       vimPlugins.nvim-treesitter.withAllGrammars
+      vimPlugins.nvim-treesitter-refactor
+      vimPlugins.nvim-treesitter-textobjects
     ];
-    extraConfig = (import ./vim-config.nix) { };
+    extraConfig = builtins.concatStringsSep "\n"
+      [
+        ''
+          lua << EOF
+          ${lib.strings.fileContents ./init.lua}
+          EOF
+        ''
+      ];
   };
   programs.nix-index.enable = true;
   programs.ssh.enable = true;

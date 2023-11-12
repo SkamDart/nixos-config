@@ -15,6 +15,8 @@
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
+    vim-copilot.url = "github:github/copilot.vim/v1.11.1";
+    vim-copilot.flake = false;
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
