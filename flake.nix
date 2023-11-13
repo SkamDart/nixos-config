@@ -13,16 +13,24 @@
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
-    vim-copilot.url = "github:github/copilot.vim/v1.11.1";
-    vim-copilot.flake = false;
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
     # Shameless plug: looking for a way to nixify your themes and make
     # everything match nicely? Try nix-colors!
     # nix-colors.url = "github:misterio77/nix-colors";
+
+    # Non Flakes
+    nvim-treesitter.url = "github:nvim-treesitter/nvim-treesitter/v0.9.1";
+    nvim-treesitter.flake = false;
+
+    vim-copilot.url = "github:github/copilot.vim/v1.11.1";
+    vim-copilot.flake = false;
   };
 
   outputs =

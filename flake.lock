@@ -149,7 +149,9 @@
         "flake-parts": "flake-parts",
         "hercules-ci-effects": "hercules-ci-effects",
         "neovim-flake": "neovim-flake",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
       },
       "locked": {
         "lastModified": 1699282964,
@@ -167,16 +169,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1699186365,
-        "narHash": "sha256-Pxrw5U8mBsL3NlrJ6q1KK1crzvSUcdfwb9083sKDrcU=",
-        "owner": "NixOS",
+        "lastModified": 1686431482,
+        "narHash": "sha256-oPVQ/0YP7yC2ztNsxvWLrV+f0NQ2QAwxbrZ+bgGydEM=",
+        "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "a0b3b06b7a82c965ae0bb1d59f6e386fe755001d",
+        "rev": "d3bb401dcfc5a46ce51cdfb5762e70cc75d082d2",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "owner": "nixos",
+        "ref": "nixos-23.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -197,19 +199,20 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
+    "nvim-treesitter": {
+      "flake": false,
       "locked": {
-        "lastModified": 1686431482,
-        "narHash": "sha256-oPVQ/0YP7yC2ztNsxvWLrV+f0NQ2QAwxbrZ+bgGydEM=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "d3bb401dcfc5a46ce51cdfb5762e70cc75d082d2",
+        "lastModified": 1691831669,
+        "narHash": "sha256-1Iuvq0hVQ7LyBYOkJ5d07NkwbGcR1K61ZZmAAA7ABGs=",
+        "owner": "nvim-treesitter",
+        "repo": "nvim-treesitter",
+        "rev": "63260da18bf273c76b8e2ea0db84eb901cab49ce",
         "type": "github"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-23.05",
-        "repo": "nixpkgs",
+        "owner": "nvim-treesitter",
+        "ref": "v0.9.1",
+        "repo": "nvim-treesitter",
         "type": "github"
       }
     },
@@ -217,8 +220,9 @@
       "inputs": {
         "home-manager": "home-manager",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nvim-treesitter": "nvim-treesitter",
         "vim-copilot": "vim-copilot"
       }
     },

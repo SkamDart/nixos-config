@@ -48,6 +48,10 @@
             name = "vim-copilot";
             src = inputs.vim-copilot;
           };
+          nvim-treesitter = final.vimUtils.buildVimPlugin {
+            name = "nvim-treesitter";
+            src = inputs.nvim-treesitter;
+          };
         };
       })
     ];
@@ -243,9 +247,10 @@
       };
     };
     package = pkgs.neovim-nightly;
-    extraPackages = [
-      pkgs.shfmt
-      pkgs.zls
+    extraPackages = with pkgs; [
+      shellcheck
+      shfmt
+      zls
     ];
     withNodeJs = true;
     withPython3 = true;
@@ -275,18 +280,97 @@
 
       # Rust
       vimPlugins.rust-tools-nvim
+
       # Dhall
       vimPlugins.dhall-vim
+
       # Dap?
       vimPlugins.nvim-dap
       vimPlugins.coc-nvim
       vimPlugins.coc-sh
 
       # treesitter
-      vimPlugins.nvim-treesitter
-      vimPlugins.nvim-treesitter.withAllGrammars
-      vimPlugins.nvim-treesitter-refactor
-      vimPlugins.nvim-treesitter-textobjects
+      customVim.nvim-treesitter
+
+      # As of 2023-11-13 all of these are borked and give some lua
+      # error. I'm not sure why and I am definitely not going to spend
+      # my free time debugging lua + nix.
+      #
+      # Life is too short for that.
+      #
+      # vimPlugins.nvim-treesitter
+      # vimPlugins.nvim-treesitter.withPlugins (p: with p; [])
+      # vimPlugins.nvim-treesitter.withPlugins (p: with p;
+      # [
+      #   ada
+      #   agda
+      #   awk
+      #   bash
+      #   c
+      #   cpp
+      #   cuda
+      #   d
+      #   dart
+      #   devicetree
+      #   dhall
+      #   diff
+      #   ebnf
+      #   elm
+      #   elixir
+      #   elvish
+      #   erlang
+      #   fish
+      #   fortran
+      #   fsh
+      #   git-config
+      #   git-rebase
+      #   gitattributes
+      #   gitcommit
+      #   gitignore
+      #   go
+      #   graphql
+      #   hack
+      #   haskell
+      #   hcl
+      #   java
+      #   javascript
+      #   jq
+      #   jsdoc
+      #   json
+      #   json5
+      #   jsonc
+      #   julia
+      #   kdl
+      #   kotlin
+      #   latex
+      #   llvm
+      #   lua
+      #   make
+      #   markdown
+      #   matlab
+      #   nickel
+      #   ninja
+      #   nix
+      #   ocaml
+      #   ocaml_interface
+      #   odin
+      #   pascal
+      #   proto
+      #   python
+      #   r
+      #   racket
+      #   ron
+      #   rust
+      #   scala
+      #   sql
+      #   typescript
+      #   verilog
+      #   vim
+      #   vimdoc
+      #   vue
+      #   yaml
+      #   zig
+      # ])
     ];
     extraConfig = builtins.concatStringsSep "\n"
       [
@@ -297,6 +381,21 @@
         ''
       ];
   };
+  # see https://github.com/nix-community/neovim-nightly-overlay/wiki/Tree-sitter
+  # xdg.configFile."nvim/parser/agda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-agda}/parser";
+  xdg.configFile."nvim/parser/cuda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-cuda}/parser";
+  # xdg.configFile."nvim/parser/dhall.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-dhall}/parser";
+  xdg.configFile."nvim/parser/devicetree.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-devicetree}/parser";
+  xdg.configFile."nvim/parser/haskell.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-haskell}/parser";
+  xdg.configFile."nvim/parser/llvm.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-llvm}/parser";
+  xdg.configFile."nvim/parser/nickel.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-nickel}/parser";
+  xdg.configFile."nvim/parser/nix.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-nix}/parser";
+  xdg.configFile."nvim/parser/ocaml.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-ocaml}/parser";
+  xdg.configFile."nvim/parser/rust.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-rust}/parser";
+  xdg.configFile."nvim/parser/verilog.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-verilog}/parser";
+  xdg.configFile."nvim/parser/yaml.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-yaml}/parser";
+  xdg.configFile."nvim/parser/zig.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-zig}/parser";
+  
   programs.nix-index.enable = true;
   programs.ssh.enable = true;
 
