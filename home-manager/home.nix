@@ -95,10 +95,10 @@
     [
       arandr
       bat
+      brave
       cachix
       fd
       feh
-      firefox
       fzf
       gh
       htop
