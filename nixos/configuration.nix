@@ -115,6 +115,8 @@
     }
   ];
 
+  services.openssh.enable = true;
+
   services.xserver = {
     enable = true;
     layout = "us";
