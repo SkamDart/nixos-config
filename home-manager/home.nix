@@ -104,6 +104,7 @@
       # haskellPackages.nixdu
       htop
       jq
+      lazygit
       man-pages
       man-pages-posix
       neofetch
