@@ -101,10 +101,12 @@
       feh
       fzf
       gh
+      # haskellPackages.nixdu
       htop
       jq
       man-pages
       man-pages-posix
+      neofetch
       nix-tree
       ripgrep
       tree
@@ -199,8 +201,13 @@
       enable = true;
       settings = {
         languageserver = {
+         bash = {
+            command = "${lib.getExe pkgs.nodePackages.bash-language-server}";
+            args = [ "start" ];
+            filetypes = [ "sh" "bash" "zsh" ];
+          };
           dhall = {
-            command = "${pkgs.dhall-lsp-server}/bin/dhall-lsp-server";
+            command = "${lib.getExe pkgs.dhall-lsp-server}";
             filetypes = [ "dhall" ];
           };
           haskell = {
@@ -219,6 +226,7 @@
               maxCompletions = 10;
             };
           };
+          # we can return to purity when the nixpkgs version is 23.11
           nix = {
             command = "nixd";
             filetypes = [ "nix" ];
@@ -230,11 +238,6 @@
               "Cargo.toml"
             ];
           };
-          # sh = {
-          #   enable = true;
-          #   command = "";
-          #   bashIde.shellcheckPath = [];
-          # };
           zig = {
             zls = {
               enable = true;
@@ -248,8 +251,19 @@
     };
     package = pkgs.neovim-nightly;
     extraPackages = with pkgs; [
+      # Bash
       shellcheck
       shfmt
+
+      # Nix
+      nixpkgs-fmt
+      statix
+
+      # Telescope dependencies
+      fd
+      ripgrep
+
+      # Zig
       zls
     ];
     withNodeJs = true;
@@ -267,6 +281,7 @@
       vimPlugins.vim-eunuch
       vimPlugins.vim-gitgutter
       vimPlugins.vim-markdown
+      vimPlugins.lazygit-nvim
       # Haha Nix?
       vimPlugins.telescope-manix
       vimPlugins.vim-nix
@@ -275,8 +290,8 @@
       vimPlugins.editorconfig-nvim
 
       # Haskell
-      vimPlugins.haskell-tools-nvim
-      vimPlugins.telescope_hoogle
+      # vimPlugins.haskell-tools-nvim
+      # vimPlugins.telescope_hoogle
 
       # Rust
       vimPlugins.rust-tools-nvim
@@ -284,13 +299,30 @@
       # Dhall
       vimPlugins.dhall-vim
 
-      # Dap?
-      vimPlugins.nvim-dap
       vimPlugins.coc-nvim
       vimPlugins.coc-sh
 
       # treesitter
-      customVim.nvim-treesitter
+      {
+        plugin = customVim.nvim-treesitter;
+        type = "lua";
+        config = ''
+          require("nvim-treesitter.configs").setup({
+            ensure_installed = {},
+            -- Do not install parsers synchronously
+            sync_install = false,
+            -- Do not install the parser for the current file
+            auto_install = false,
+            highlight = {
+              enable = true,
+            },
+            indent = {
+              enable = true,
+              additional_vim_regex_highlighting = false,
+            },
+          })
+        '';
+      }
 
       # As of 2023-11-13 all of these are borked and give some lua
       # error. I'm not sure why and I am definitely not going to spend
@@ -372,19 +404,35 @@
       #   zig
       # ])
     ];
-    extraConfig = builtins.concatStringsSep "\n"
-      [
-        ''
-          lua << EOF
-          ${lib.strings.fileContents ./init.lua}
-          EOF
-        ''
-      ];
+    extraConfig = ''
+      " Use <Space> as leader key
+      let mapleader = "\<Space>"
+      " save with space + w
+      nmap <leader>w :w<CR>
+      " quit with space + q
+      nmap <leader>q :q<CR>
+      " quit without saving with space + Q
+      nmap <leader>Q :q!<CR>
+      " save and quit with space + W
+      nmap <leader>W :wq<CR>
+      " save and quit without saving with space + WQ
+      nmap <leader>WQ :wq!<CR>
+
+      " Jump to start/end of line using home row keys
+      map H ^
+      map L $
+      set list
+      set listchars=nbsp:¬,extends:»,precedes:«,trail:•,eol:$
+      set timeoutlen=1000
+      set ttimeoutlen=50
+      set expandtab
+      set number relativenumber
+    '';
   };
 
   # see https://github.com/nix-community/neovim-nightly-overlay/wiki/Tree-sitter
   # xdg.configFile."nvim/parser/agda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-agda}/parser";
-  xdg.configFile."nvim/parser/bash.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-bash}/parser";
+  # xdg.configFile."nvim/parser/bash.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-bash}/parser";
   xdg.configFile."nvim/parser/cuda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-cuda}/parser";
   # xdg.configFile."nvim/parser/dhall.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-dhall}/parser";
   xdg.configFile."nvim/parser/devicetree.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-devicetree}/parser";
