@@ -109,6 +109,7 @@
       man-pages-posix
       neofetch
       nix-tree
+      pciutils
       ripgrep
       tree
       tree-sitter
