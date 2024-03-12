@@ -101,6 +101,7 @@
       feh
       fzf
       gh
+      gopls
       # haskellPackages.nixdu
       htop
       jq
@@ -114,7 +115,10 @@
       tree
       tree-sitter
       watch
+      xclip
       zig
+      # 10K Challenge
+      gopls
     ];
 
   #---------------------------------------------------------------------
@@ -184,6 +188,12 @@
     };
   };
 
+  # !10kK Challenge
+  programs.go = {
+    enable = true;
+    package = pkgs.go;
+  };
+
   programs.i3status = {
     enable = true;
     general = {
@@ -211,6 +221,16 @@
           dhall = {
             command = "${lib.getExe pkgs.dhall-lsp-server}";
             filetypes = [ "dhall" ];
+          };
+          go = {
+            checkForUpdates = false;
+            command = "gopls";
+            enable = true;
+            rootPatterns = ["go.work" "go.mod"];
+            filetypes = ["go"];
+            initializationOptions = {
+              usePlaceholders = true;
+            };
           };
           haskell = {
             command = "haskell-language-server-wrapper";
@@ -303,6 +323,10 @@
 
       vimPlugins.coc-nvim
       vimPlugins.coc-sh
+
+      # 10k challenge
+      vimPlugins.vim-go
+      vimPlugins.coc-go
 
       # treesitter
       {
@@ -439,6 +463,7 @@
   # xdg.configFile."nvim/parser/dhall.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-dhall}/parser";
   xdg.configFile."nvim/parser/devicetree.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-devicetree}/parser";
   xdg.configFile."nvim/parser/fish.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-fish}/parser";
+  xdg.configFile."nvim/parser/go.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-go}/parser";
   xdg.configFile."nvim/parser/haskell.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-haskell}/parser";
   xdg.configFile."nvim/parser/llvm.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-llvm}/parser";
   xdg.configFile."nvim/parser/nickel.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-nickel}/parser";
