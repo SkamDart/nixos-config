@@ -134,7 +134,7 @@
       shell = pkgs.fish;
       isNormalUser = true;
       extraGroups = [ "wheel" "networkmanager" ];
-      packages = with pkgs; [ ];
+      packages = [ inputs.ghostty.packages.x86_64-linux.default ];
     };
   };
 

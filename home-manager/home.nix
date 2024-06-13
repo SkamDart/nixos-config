@@ -188,6 +188,8 @@ in
       # required for telescope-manix
       manix
       nil
+      nixpkgs-fmt
+      # Ricing
       neofetch
       # required for nix language server
       # https://github.com/nix-community/nixd/issues/357
@@ -339,6 +341,9 @@ in
           nix = {
             command = "nil";
             filetypes = [ "nix" ];
+            formatting = {
+              command = "nixpkgs-fmt";
+            };
             rootPatterns = [ "default.nix" "flake.nix" "shell.nix" ];
           };
           rust = {
@@ -393,7 +398,9 @@ in
       vimPlugins.vim-gitgutter
       vimPlugins.vim-markdown
       vimPlugins.lazygit-nvim
+
       # Haha Nix?
+      vimPlugins.coc-clangd
       vimPlugins.telescope-manix
       vimPlugins.vim-nix
 
@@ -406,7 +413,12 @@ in
 
       # Rust
       vimPlugins.rust-tools-nvim
-
+      {
+        plugin = vimPlugins.coc-rust-analyzer;
+        config = ''
+          let g:coc_global_extensions = ['coc-rust-analyzer']
+        '';
+      }
       # Dhall
       vimPlugins.dhall-vim
 
@@ -442,15 +454,6 @@ in
           })
         '';
       }
-
-      # As of 2023-11-13 all of these are borked and give some lua
-      # error. I'm not sure why and I am definitely not going to spend
-      # my free time debugging lua + nix.
-      #
-      # Life is too short for that.
-      #
-      # vimPlugins.nvim-treesitter
-      # vimPlugins.nvim-treesitter.withPlugins (p: with p; [])
     ];
     extraConfig = ''
       " Use <Space> as leader key
@@ -477,25 +480,6 @@ in
       set number relativenumber
     '';
   };
-
-  # see https://github.com/nix-community/neovim-nightly-overlay/wiki/Tree-sitter
-  # xdg.configFile."nvim/parser/agda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-agda}/parser";
-  # xdg.configFile."nvim/parser/bash.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-bash}/parser";
-  # xdg.configFile."nvim/parser/cuda.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-cuda}/parser";
-  # xdg.configFile."nvim/parser/dhall.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-dhall}/parser";
-  # xdg.configFile."nvim/parser/devicetree.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-devicetree}/parser";
-  # xdg.configFile."nvim/parser/fish.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-fish}/parser";
-  # xdg.configFile."nvim/parser/go.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-go}/parser";
-  # xdg.configFile."nvim/parser/haskell.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-haskell}/parser";
-  # xdg.configFile."nvim/parser/llvm.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-llvm}/parser";
-  # xdg.configFile."nvim/parser/nickel.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-nickel}/parser";
-  # xdg.configFile."nvim/parser/nix.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-nix}/parser";
-  # xdg.configFile."nvim/parser/ocaml.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-ocaml}/parser";
-  # xdg.configFile."nvim/parser/ocaml-interface.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-ocaml-interface}/parser";
-  # xdg.configFile."nvim/parser/rust.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-rust}/parser";
-  # xdg.configFile."nvim/parser/verilog.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-verilog}/parser";
-  # xdg.configFile."nvim/parser/yaml.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-yaml}/parser";
-  # xdg.configFile."nvim/parser/zig.so".source = "${pkgs.tree-sitter-grammars.tree-sitter-zig}/parser";
 
   programs.nix-index.enable = true;
   programs.ssh.enable = true;

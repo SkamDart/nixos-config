@@ -9,6 +9,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
 
+    ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
+
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -27,12 +29,20 @@
 
     vim-copilot.url = "github:github/copilot.vim/v1.11.1";
     vim-copilot.flake = false;
+
+    zig = {
+      url = "github:mitchellh/zig-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
     { self
     , nixpkgs
     , home-manager
+    , zig
+    , ghostty
     , ...
     } @ inputs:
     let
