@@ -152,6 +152,8 @@
 
   services.openssh.enable = true;
 
+  services.tailscale.enable = true;
+
   services.xserver = {
     enable = true;
     layout = "us";
