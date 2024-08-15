@@ -9,80 +9,80 @@
 }:
 let
   nvim-plugintree = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: with p;
-        [
-          ada
-          agda
-          awk
-          bash
-          c
-          cpp
-          cuda
-          d
-          dart
-          devicetree
-          dhall
-          diff
-          ebnf
-          elm
-          elixir
-          elvish
-          erlang
-          fish
-          fortran
-          fsh
-          git-config
-          git-rebase
-          gitattributes
-          gitcommit
-          gitignore
-          go
-          graphql
-          hack
-          haskell
-          hcl
-          java
-          javascript
-          jq
-          jsdoc
-          json
-          json5
-          jsonc
-          julia
-          kdl
-          kotlin
-          latex
-          llvm
-          lua
-          make
-          markdown
-          matlab
-          nickel
-          ninja
-          nix
-          ocaml
-          ocaml_interface
-          odin
-          pascal
-          proto
-          python
-          r
-          racket
-          ron
-          rust
-          scala
-          sql
-          typescript
-          verilog
-          vim
-          vimdoc
-          vue
-          yaml
-          zig
-        ]);
-    treesitter-parsers = pkgs.symlinkJoin {
-      name = "treesitter-parsers";
-      paths = nvim-plugintree.dependencies;
-    };
+    [
+      ada
+      agda
+      awk
+      bash
+      c
+      cpp
+      cuda
+      d
+      dart
+      devicetree
+      dhall
+      diff
+      ebnf
+      elm
+      elixir
+      elvish
+      erlang
+      fish
+      fortran
+      fsh
+      git-config
+      git-rebase
+      gitattributes
+      gitcommit
+      gitignore
+      go
+      graphql
+      hack
+      haskell
+      hcl
+      java
+      javascript
+      jq
+      jsdoc
+      json
+      json5
+      jsonc
+      julia
+      kdl
+      kotlin
+      latex
+      llvm
+      lua
+      make
+      markdown
+      matlab
+      nickel
+      ninja
+      nix
+      ocaml
+      ocaml_interface
+      odin
+      pascal
+      proto
+      python
+      r
+      racket
+      ron
+      rust
+      scala
+      sql
+      typescript
+      verilog
+      vim
+      vimdoc
+      vue
+      yaml
+      zig
+    ]);
+  treesitter-parsers = pkgs.symlinkJoin {
+    name = "treesitter-parsers";
+    paths = nvim-plugintree.dependencies;
+  };
 in
 {
   # You can import other home-manager modules here
@@ -150,6 +150,8 @@ in
     "ghci/ghci.conf".text = builtins.readFile ./ghci.conf;
   };
 
+  fonts.fontconfig.enable = true;
+
   home = {
     username = "stinky";
     homeDirectory = "/home/stinky";
@@ -178,7 +180,6 @@ in
       feh
       fzf
       gh
-      gopls
       # haskellPackages.nixdu
       htop
       jq
@@ -202,6 +203,15 @@ in
       watch
       xclip
       zig
+      # Fira Code
+      fira-code
+      fira-code-symbols
+
+      # JetBrains Mono
+      jetbrains-mono
+
+      # Nerd Fonts
+      nerdfonts
       # 10K Challenge
       gopls
     ];
@@ -298,7 +308,7 @@ in
       enable = true;
       settings = {
         languageserver = {
-         bash = {
+          bash = {
             command = "${lib.getExe pkgs.nodePackages.bash-language-server}";
             args = [ "start" ];
             filetypes = [ "sh" "bash" "zsh" ];
@@ -311,8 +321,8 @@ in
             checkForUpdates = false;
             command = "gopls";
             enable = true;
-            rootPatterns = ["go.work" "go.mod"];
-            filetypes = ["go"];
+            rootPatterns = [ "go.work" "go.mod" ];
+            filetypes = [ "go" ];
             initializationOptions = {
               usePlaceholders = true;
             };
