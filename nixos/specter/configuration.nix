@@ -12,12 +12,12 @@
     # inputs.home-manager.nixosModules.home-manager
   ];
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
-    users = {
-      stinky = import ../home-manager/home.nix;
-    };
-  };
+  # home-manager = {
+  #   extraSpecialArgs = { inherit inputs outputs; };
+  #   users = {
+  #     stinky = import ../home-manager/home.nix;
+  #   };
+  # };
 
   nixpkgs = {
     # You can add overlays here

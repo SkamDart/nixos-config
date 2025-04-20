@@ -78,11 +78,14 @@
             ./nixos/configuration.nix
           ];
         };
-        specter = nixpkgs.legacyPackages.x86_64-linux.nixos [
-          ./nixos/specter/configuration.nix
-          disko.nixosModules.disko
-          ./nixos/specter/disko.nix
-        ];
+        specter = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            ./nixos/specter/configuration.nix
+            disko.nixosModules.disko
+            ./nixos/specter/disko.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
